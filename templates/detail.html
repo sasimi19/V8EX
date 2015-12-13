@@ -1,97 +1,287 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Fixed Top Navbar Example for Bootstrap</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="/static/css/navbar-fixed-top.css" rel="stylesheet">
+<!-- saved from url=(0028)http://fairybbs.com/topic/2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
 
 
+        <title>
+            开发状态。-
 
-  </head>
+            FairyBBS演示网站
+        </title>
 
-  <body>
+        <!-- Bootstrap -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/base.css" rel="stylesheet">
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">V8EX</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="http://fairybbs.com/recent/">最近主题</a></li>
+                     <li class=""><a href="http://fairybbs.com/node/">所有节点</a></li>
+
+                </ul>
+                    <div class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input onkeydown="if(event.keyCode==13){search();}" type="text" id="search" class="form-control" name="search" placeholder="输入关键词">
+                        </div>
+                        <a class="btn btn-default" id="search-btn">
+                            搜索
+                        </a>
+                    </div>
+                </div>
+            </div><!--end nav container-->
+        </nav><!--end nav-->
+
+        <div id="wrap">
+            <div class="container" id="main">
+                <div class="row">
+
+<div class="col-md-8" id="left">
+
+
+
+
+<div class="panel panel-default">
+	<div class="topic-heading panel-heading">
+		<div class="row">
+			<a href="http://fairybbs.com/user/1/info/" class="col-md-1 pull-right"><img title="eric" class="avatar-middle pull-right" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
+			<div class="col-md-10">
+				<p class="topic-breadcrumb">
+                        <a href="http://fairybbs.com/">V8EX</a>  ›   <a href="http://fairybbs.com/node/1/">V8EX</a>
+                </p>
+				<h3 class="list-post-title-in-topic">{{ article.title }}</h3>
+				<p class="list-meta">
+					<span class="label label-default list-meta-node"><a href="#">V8EX</a></span>
+					<span class="list-count">978</span>
+					<span class="list-time">1&nbsp;年，5&nbsp;月 之前</span>AA
+					<span class="list-username"><a href="http://fairybbs.com/user/1/info/">eric</a></span>
+
+
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+        {{ article.content }}
+	</div>
+
+</div><!--end content panel-->
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<p class="panel-title">
+
+
+			{{ comments.count }} reply
+
+
+		</p>
+	</div>
+
+	<ul class="list-group">
+
+        {% for comment in comments %}
+		<div class="list-group-item list-topic-item" id="post-23">
+			<div class="row ">
+				<a href="http://fairybbs.com/user/26/info/" class="col-md-1"><img title="SIFT2009" class="avatar-middle" src="http://www.gravatar.com/avatar/b1eeb4e6908758f3f501713b7bcc7f40?s=48&d="></a>
+				<div class="col-xs-11">
+					<div class="row">
+						<div class="reply-author col-sm-10">
+							<a href="http://fairybbs.com/user/26/info/">{{ comment.user_id }}</a>
+							<span class="list-time">1&nbsp;年，4&nbsp;月 之前</span>
+
+						</div>
+						<div class="col-sm-2">
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="reply-content col-md-12">
+
+                            <p>{{ comment.content }}</p>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    {% endfor %}
+	</ul>
+	<div class="panel-footer">
+
+	</div>
+
+</div><!--end reply panel-->
+<div class="panel panel-default" id="create_reply">
+	<div class="panel-heading">
+		<p class="panel-title">
+			回复
+		</p>
+	</div>
+	<div class="panel-body">
+
+
+		<form class="form" action="http://fairybbs.com/topic/43/reply/" method="post">
+			<input type="hidden" name="csrfmiddlewaretoken" value="tuk5pr2u11FTfCvLTJFVz2zpq06d6x71">
+			<div class="form-group ">
+				<label class="sr-only" for="content">内容</label>
+				<textarea class="form-control" id="content" name="content" style="margin: 0px -2px 0px 0px; height: 139px; width: 718px;"></textarea>
+			</div>
+
+			<div class="form-submit text-right">
+				<a class="btn btn-default" id="pre-btn"> 预览 </a>
+				<button class="btn btn-info" type="submit" id="submit">
+					提交(Ctrl+Enter)
+				</button>
+			</div>
+		</form>
+		<div class="previewer">
+
+		</div>
+
+	</div>
+
+</div><!--end reply panel-->
+
+{# 未登陆时提示登陆才可以回复#}
+{#<div class="panel panel-default" id="create_reply">#}
+{#	<div class="panel-heading">#}
+{#		<p class="panel-title">#}
+{#			回复#}
+{#		</p>#}
+{#	</div>#}
+{#	<div class="panel-body">#}
+{##}
+{##}
+{#		<div class="alert alert-info">#}
+{#			登录后方可回复#}
+{#		</div>#}
+{#		<a href="http://fairybbs.com/user/signin/" class="btn btn-info">登陆</a>#}
+{##}
+{#	</div>#}
+{##}
+{#</div><!--end reply panel-->#}
+
+</div><!--end left-->
+<div class="col-md-4" id="right">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            FairyBBS
+        </h3>
+    </div>
+    <div class="panel-body">
+        FairyBBS的演示节点
+    </div>
+    <!--div class="panel-footer"></div-->
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+        什么是FairyBBS
+         </h3>
+    </div>
+    <div class="panel-body">
+
+        <p class="text-center">
+            FairyBBS是使用Django框架建立的小型论坛系统
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="http://fairybbs.com/user/signin/" class="btn btn-block btn-info">登陆</a>
+            </div>
+            <div class="col-md-6">
+                <a href="http://fairybbs.com/user/reg/" class="btn btn-block btn-default">注册</a>
+            </div>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-
-    <div class="container">
-
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-{#        <h1>Navbar example</h1>#}
-{#        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>#}
-{#        <p>To see the difference between static and fixed top navbars, just scroll.</p>#}
-{#        <p>#}
-{#          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>#}
-{#        </p>#}
-         <p>{{ article.title }}</p>
-          <p>{{ article.content }}</p>
-
-      </div>
-        <div class="jumbotron">
-
-         {% for comment in comments %}
-             <p>{{ comment.content }}</p>
-            {% endfor %}
 
 
-      </div>
+    </div>
 
-    </div> <!-- /container -->
+</div>
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/static/js/jquery-2.1.1.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-  </body>
-</html>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                节点
+        </h3>
+    </div>
+    <div class="panel-body">
+
+        <span class="label label-default list-meta-node"><a href="http://fairybbs.com/node/1/">FairyBBS</a></span>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                链接
+        </h3>
+    </div>
+    <ul class="list-group">
+
+        <li class="list-group-item">
+        <iframe src="/static/js/github-btn.html" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+        <iframe src="/static/js/github-btn(1).html" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+
+
+        </li>
+        <li class="list-group-item">
+        <a href="https://www.digitalocean.com/?refcode=c532c5ed406f"><img src="/static/js/DO.png" style="max-width:100%; display:block;"></a>
+        </li>
+    </ul>
+</div>
+
+
+</div><!--end right-->
+
+                </div><!--end outter row-->
+            </div><!--end main-->
+        </div><!--end wrap-->
+
+        <footer id="footer">
+            <div class="container clearfix">
+                <div class="text-muted pull-left">
+                   <p>
+					A <a target="_blank" href="http://djangoproject.com/">Django</a> project</p>
+                </div>
+                <p class="muted credit pull-right">
+                    ©
+                    <time>
+                        2014
+                    </time>
+                    Powered by <a href="http://fairybbs.com/">FairyBBS</a> 0.0.4.
+                </p>
+            </div>
+        </footer>
+
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/search.js"></script>
+
+<script src="/static/js/previewer.js"></script>
+<script src="/static/js/mention.js"></script>
+
+	<!--zh-cn-->
+
+
+</body></html>

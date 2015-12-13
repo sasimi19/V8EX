@@ -11,7 +11,7 @@ class BBS_admin(admin.ModelAdmin):
     signature.short_description  = 'hah'
 
 # class BBS_user_admin(admin.ModelAdmin):
-#    list_display = ('signature', )
+#    list_display = ('username', 'email', 'signature', )
 
 
 admin.site.register(BBS, BBS_admin)
