@@ -32,11 +32,12 @@ class Category(models.Model):
         return self.name
 
 class BBS_user(models.Model):
-    username = models.OneToOneField(User)
+    username = models.CharField(max_length=16)
+    password = models.CharField(max_length=16)
     email = models.EmailField(default='example@email.com')
     signature = models.CharField(max_length=128, default='这家伙很懒，什么也没留下.')
     photo = models.ImageField(upload_to='upload_imgs/', default='upload_imgs/user-0.jpg')
 
     def __str__(self):
-        return self.username.username
+        return self.username
 

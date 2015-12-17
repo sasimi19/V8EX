@@ -11,11 +11,28 @@ from django.template.context_processors import csrf
 # from django.contrib.auth import login, authenticate, logout
 from django.contrib import auth
 import datetime
+from django import forms
 
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z\_]*$', '请输入字母、数字、或者下划线')
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='username', max_length=16,)
+    password = forms.CharField(label='password')
+
+class RegForm(forms.Form):
+    username = forms.CharField(label='username')
+    password = forms.CharField(label='password')
+    password2 = forms.CharField(label='password2')
+    email = forms.CharField(label='email')
+
+
 
 def index(request):
+    # print(request.COOKIES['username'])
+    # print(BBS_user.objects.all().filter(bbs__comment__user_id__username__contains=request.COOKIES['username']))
+    # print(request.COOKIES['username'].id)
+
+
     articles = BBS.objects.all()
     categories = Category.objects.all()
     comments = Comment.objects.all()
@@ -23,7 +40,9 @@ def index(request):
     user_count = BBS_user.objects.count()  # 用户数量
     bbs_count = BBS.objects.count() # 帖子数量
     comment_count = Comment.objects.count() # 评论数量
-    # categorie = Category.objects.get()aa
+    user = request.COOKIES.get('username')
+    # user = BBS_user.objects.all().filter(username=cookie)
+    # categorie = Category.objects.get()
     return render(request, 'index.html', {
         'articles': articles,
         'categories': categories,
@@ -31,85 +50,165 @@ def index(request):
         'now': now,
         'user_count': user_count,
         'bbs_count': bbs_count,
-        'comment_count': comment_count
+        'comment_count': comment_count,
+        # 'cookie': cookie,
+        'user': user
     })
 
 def detail(request, bbs_id):
+    print(bbs_id)
+
     article = BBS.objects.get(id=bbs_id)
     comments = Comment.objects.all().filter(article_id=bbs_id)
+    user = request.COOKIES.get('username')
+    # user = BBS_user.objects.all().filter(username=cookie)
 
     # comment_user = Comment.objects.get()
-    return render(request, 'detail.html', {'article': article, 'comments': comments})
+    return render(request, 'detail.html', {
+        'article': article,
+        'comments': comments,
+        'user': user
+    })
 
 
 def reg(request):
-    # if request.method == 'GET':
+     # if request.method == 'GET':
+    #     print('GET')
     #     return render(request, 'reg.html', context_instance=RequestContext(request))
+    # print('hello')
+    # if request.method == 'POST':
 
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        email = request.POST['email']
-        try:
-            alphanumeric(username)
-        except:
-            messages.add_message(request, messages.WARNING, '用户名只能含有字母、数字或下划线')
-            return HttpResponseRedirect(reverse('reg'))
+    form = RegForm(request.POST)
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        email = form.cleaned_data['email']
+         #添加到数据库
+        BBS_user.objects.create(username= username, password=password, email=email)
+        response = HttpResponseRedirect('/index/')
+        #将username写入浏览器cookie,失效时间为3600
+        request.session['login_bool'] = True
+        login_bool = True
+        response.set_cookie('username', username, 3600)
+        return response
+     # return render(request, 'login.html', {'form': form,})
 
-        if BBS_user.objects.filter(user=username).exists():
-            messages.add_message(request, messages.WARNING, '用户已存在')
-            return HttpResponseRedirect(reverse('reg'))
 
-        if password != password2:
-            messages.add_message(request, messages.WARNING, '两次输入的密码不一致，请重新输入')
-            return HttpResponseRedirect(reverse('reg'))
+    return render(request, 'reg.html', {'form': form,})
 
-        if password == '' or password2 == '':
-            messages.add_message(request, messages.WARNING, '密码不能为空')
-            return HttpResponseRedirect(reverse('reg'))
+    # print('post')
+    # username = request.POST.get('username')
+    # password = request.POST.get('password')
+    # password2 = request.POST.get('password2')
+    # email = request.POST.get('email')
+    # try:
+    #     alphanumeric(username)
+    # except:
+    #     messages.add_message(request, messages.WARNING, '用户名只能含有字母、数字或下划线')
+    #     return HttpResponseRedirect(reverse('reg'))
+    #
+    # if BBS_user.objects.filter(username=username).exists():
+    #     messages.add_message(request, messages.WARNING, '用户已存在')
+    #     return HttpResponseRedirect(reverse('reg'))
+    #
+    # if password != password2:
+    #     messages.add_message(request, messages.WARNING, '两次输入的密码不一致，请重新输入')
+    #     return HttpResponseRedirect(reverse('reg'))
+    #
+    # if password == '' or password2 == '':
+    #     messages.add_message(request, messages.WARNING, '密码不能为空')
+    #     return HttpResponseRedirect(reverse('reg'))
+    #
+    # user = BBS_user.objects.create(username=username, email=email, password=password)
+    # # user = authenticate(username=username, password=password)
+    # login(request, user)
+    # p = BBS_user()
+    # p.user = user
+    # p.save()
+    # return render(request, 'reg.html')
+        # return HttpResponseRedirect(reverse('index'))
 
-        user = BBS_user.objects.create(username=username, email=email, password=password)
-        # user = authenticate(username=username, password=password)
-        login(request, user)
-        p = BBS_user()
-        p.user = user
-        p.save()
-    # return render(request, 'index.html')
-        return HttpResponseRedirect(reverse('index'))
 
 def login(request):
-    # if request.method == 'GET':
+    # if request.method != 'POST':
+    #     print('get')
     #     return render(request, 'login.html', context_instance=RequestContext(request))
     #
     # if request.method == 'POST':
-    #     try:
-    #         user = BBS_user.objects.get(username=request.POST['username'])
-    #         if user.password == request.POST['password']:
-    #             request.session['user_id'] = user.id
-    #             return render(request, 'index.html', {
-    #                 'user_logging': user.id,
-    #                 'user': user
-    #             })
-    #
-    #         else:
-    #             #比较失败，还在login
-    #             messages.add_message(request, messages.WARNING, '账号或密码错误，请重新输入')
-    #             return HttpResponseRedirect('/login/')
-    #     except:
-    #          messages.add_message(request, messages.WARNING, '该用户不存在，请重新输入')
-    #          return HttpResponseRedirect('/login/')
-    # return render(request, 'login.html')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = auth.authenticate(username=username, password=password)
-    print(username, password)
-    if user is not None: # and user.is_active:
-        auth.login(request, user)
-        return HttpResponseRedirect('/')
-    else:
-        return render(request, 'login.html', {'login_err': 'Wrong username or password!'})
+    #     print('post')
+    # try:
+    # if request.method == 'POST':
+    print('post')
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        print('password')
+        user = BBS_user.objects.filter(username__exact = username,password__exact = password)
 
+        if user:
+            print('user')
+            response = HttpResponseRedirect('/index/')
+            #将username写入浏览器cookie,失效时间为3600
+            request.session['login_bool'] = True
+            login_bool = True
+            response.set_cookie('username', username, 3600)
+            return response
+        else:
+            #比较失败，还在login
+            return HttpResponseRedirect('/login/')
+# else:
+#     form = LoginForm()
+    return render(request, 'login.html', {'form': form,})
+    # username=request.POST.get('username')
+    # password = request.POST.get('password')
+    # user = BBS_user.objects.filter(username__exact = username,password__exact = password)
+    # if user:
+    #     request.session['login_bool'] = user
+    #     return render(request, 'index.html', {
+    #         'login_bool': user,
+    #         'user': user
+    #     })
+    # else:
+    #     print('chongdingx')
+    #     return HttpResponseRedirect('/login/')
+
+    #     else:
+    #         #比较失败，还在login
+    #         messages.add_message(request, messages.WARNING, '账号或密码错误，请重新输入')
+    #         return HttpResponseRedirect('/login/')
+    # except:
+    #      messages.add_message(request, messages.WARNING, '该用户不存在，请重新输入')
+    #      return HttpResponseRedirect('/login/')
+    # return render(request, 'login.html')
+
+
+    # username = request.POST.get('username')
+    # password = request.POST.get('password')
+    # user = auth.authenticate(username=username, password=password)
+    # print(username, password)
+    # if user is not None: # and user.is_active:
+    #     auth.login(request, user)
+    #     return HttpResponseRedirect('/')
+    # else:
+    #     return render(request, 'login.html', {'login_err': 'Wrong username or password!'})
+
+def logout(request):
+    response = HttpResponseRedirect('/index/')
+    response.delete_cookie('username')
+    return response
+
+def reply(request, bbs_id):
+    # if request.method == 'POST':
+    # article_id = bbs_id
+    content = request.POST.get('content')
+    username = request.COOKIES['username']
+    user = BBS_user.objects.get(username=request.COOKIES['username'])
+    # print(user.id)
+    print('hello')
+    Comment.objects.create(content=content, date=datetime.datetime.now(), user_id_id=user.id, article_id_id=bbs_id)
+    return HttpResponseRedirect('/detail/' + bbs_id)
+    # return render(request, 'detail.html')
 
 
 

@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0020)http://fairybbs.com/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
-
+<html>
+<head>
+    <meta charset=UTF-8">
+    <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
     <meta name="keywords" content="">
     <meta name="description" content="">
 
@@ -54,50 +52,116 @@
             </div><!--end nav container-->
         </nav><!--end nav-->
 
-<div id="wrap">
+        <div id="wrap">
             <div class="container" id="main">
                 <div class="row">
 
-<div class="panel panel-default col-md-6 col-md-offset-3">
-    <form class="panel-body" role="form" method="post" action="/reg/">
-        {% csrf_token %}
-        <h2>注册</h2>
-        <input type='hidden' name='csrfmiddlewaretoken' value='IO9E7zNYpb1TugMcJW63PuCpJGOqBfkH' />
+{% block main %}
+<div class="col-md-8" id="left">
 
-        <div class="form-group ">
-            <label for="username">用户名（<i>字母，数字，下划线</i>）</label>
-            <input class="form-control" id="username" name="username" placeholder="字母，数字，下划线" type="text">
-        </div>
+</div><!--end left-->
+{% endblock %}
 
-        <div class="form-group ">
-            <label for="email">电子邮件</label>
-            <input class="form-control" id="email" name="email" type="email" placeholder="" >
-        </div>
+<div class="col-md-4" id="right">
 
-        <div class="form-group ">
-            <label for="password">密码</label>
-            <input class="form-control" id="password" name="password" type="password">
+{# 登陆模块 #}
+{% block login %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+        什么是FairyBBS
+         </h3>
+    </div>
+    <div class="panel-body">
+        <p class="text-center">
+            FairyBBS是使用Django框架建立的小型论坛系统
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="http://fairybbs.com/user/signin/" class="btn btn-block btn-info">登陆</a>
+            </div>
+            <div class="col-md-6">
+                <a href="http://fairybbs.com/user/reg/" class="btn btn-block btn-default">注册</a>
+            </div>
         </div>
-
-         <div class="form-group ">
-            <label for="password">重复密码</label>
-            <input class="form-control" id="password2" name="password2" type="password">
-        </div>
-
-        <div class="form-group">
-            <button class="btn btn-default">
-                提交
-            </button>
-            <a class="btn btn-link" href="/login/">已有账户？</a>
-        </div>
-    </form>
+    </div>
 </div>
+{% endblock %}
+{# 登陆模块结束 #}
+
+{# 节点模块 #}
+{% block category %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                节点
+        </h3>
+    </div>
+    <div class="panel-body">
+        {% for category in categories %}
+            <span class="label label-default list-meta-node"><a href="#">{{ category.name }}</a></span>
+        {% endfor %}
+
+
+    </div>
+</div>
+{% endblock %}
+{# 节点模块结束 #}
+
+{# 链接模块 #}
+{% block link %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                链接
+        </h3>
+    </div>
+    <ul class="list-group">
+
+        <li class="list-group-item">
+        <iframe src="#" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+        <iframe src="#" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+        </li>
+        <li class="list-group-item">
+        <a href="https://www.digitalocean.com/?refcode=c532c5ed406f"><img src="./主页- FairyBBS演示网站_files/DO.png" style="max-width:100%; display:block;"></a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+{# 链接模块结束 #}
+
+
+{# 站点模块 #}
+{% block site %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                站点统计
+        </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+            用户数量:149
+        </li>
+        <li class="list-group-item">
+            话题数量:43
+        </li>
+        <li class="list-group-item">
+            回复数目:155
+        </li>
+    </ul>
+</div>
+{% endblock %}
+{# 站点模块结束 #}
+
+
+</div><!--end right-->
 
                 </div><!--end outter row-->
             </div><!--end main-->
         </div><!--end wrap-->
 
-       <footer id="footer">
+        <footer id="footer">
             <div class="container clearfix">
                 <div class="text-muted pull-left">
                    <p>
@@ -106,7 +170,7 @@
                 <p class="muted credit pull-right">
                     ©
                     <time>
-                        2014
+                        2015
                     </time>
                     Powered by <a href="#">朱洁高</a> 0.1.0
                 </p>

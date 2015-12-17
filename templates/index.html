@@ -113,11 +113,11 @@
 </div><!--end left-->
 <div class="col-md-4" id="right">
 
-{% if user.is_authenticated %}
+{% if user %}
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-        {{ user.username }}
+        {{ user }}
          </h3>
     </div>
     <div class="panel-body">
@@ -129,7 +129,7 @@
                     <a href="/user/146/info/" class="btn btn-block"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人信息 </a>
                 </div>
                 <div class="col-xs-3">
-                    <a href="/user/signout/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;退出登录 </a>
+                    <a href="/logout/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;退出登录 </a>
                 </div>
             </div>
 

@@ -58,7 +58,7 @@
 
 
 <div class="panel panel-default col-md-6 col-md-offset-3">
-    <form class="panel-body" role="form" method="post" action="/">
+    <form class="panel-body" role="form" method="post" action="/login/">
         {% csrf_token %}
         <h2>登陆</h2>
         <input type='hidden' name='csrfmiddlewaretoken' value='Dm6kb1kl4aLEG2AeqFVRF25lvPCihI3m' />
@@ -72,7 +72,7 @@
             <label for="password">密码</label>
             <input class="form-control" id="password" name="password" type="password">
         </div>
-
+{#        {{ form.as_p }}#}
         <div class="form-group">
             <button class="btn btn-default">
                 登陆
