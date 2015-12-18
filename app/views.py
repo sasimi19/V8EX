@@ -31,7 +31,7 @@ def index(request):
     # print(request.COOKIES['username'])
     # print(BBS_user.objects.all().filter(bbs__comment__user_id__username__contains=request.COOKIES['username']))
     # print(request.COOKIES['username'].id)
-
+    # print(BBS_user.objects.get(username=request.COOKIES['username']).id)
 
     articles = BBS.objects.all()
     categories = Category.objects.all()
@@ -41,6 +41,7 @@ def index(request):
     bbs_count = BBS.objects.count() # 帖子数量
     comment_count = Comment.objects.count() # 评论数量
     user = request.COOKIES.get('username')
+    new_bbs_id = bbs_count + 1
     # user = BBS_user.objects.all().filter(username=cookie)
     # categorie = Category.objects.get()
     return render(request, 'index.html', {
@@ -52,7 +53,8 @@ def index(request):
         'bbs_count': bbs_count,
         'comment_count': comment_count,
         # 'cookie': cookie,
-        'user': user
+        'user': user,
+        'new_bbs_id': new_bbs_id
     })
 
 def detail(request, bbs_id):
@@ -150,7 +152,7 @@ def login(request):
             print('user')
             response = HttpResponseRedirect('/index/')
             #将username写入浏览器cookie,失效时间为3600
-            request.session['login_bool'] = True
+            # request.session['login_bool'] = True
             login_bool = True
             response.set_cookie('username', username, 3600)
             return response
@@ -209,6 +211,35 @@ def reply(request, bbs_id):
     Comment.objects.create(content=content, date=datetime.datetime.now(), user_id_id=user.id, article_id_id=bbs_id)
     return HttpResponseRedirect('/detail/' + bbs_id)
     # return render(request, 'detail.html')
+
+def user(request):
+    user = BBS_user.objects.get(username=request.COOKIES['username'])
+    articles = BBS.objects.filter(author_id=user.id)
+    # print(articles)
+    return render(request, 'userInfo.html', {'user': user, 'articles': articles})
+
+def post(request):
+    title = request.POST.get('title')
+    content = request.POST.get('content')
+    categories = Category.objects.all()
+    author = BBS_user.objects.get(username=request.COOKIES['username'])
+    new_bbs_id = BBS.objects.count() + 1
+    new_bbs = BBS.objects.create(
+        title=title,
+        content=content,
+        view_count=1,
+        created_date=datetime.datetime.now(),
+        update_date=datetime.datetime.now(),
+        ranking=0,
+        category_id_id=request.POST.get('category'),
+        author_id = author.id
+        # author = request.COOKIES['username'].id
+    )
+    if new_bbs:
+        return HttpResponseRedirect('/detail/' + str(new_bbs_id))
+    return render(request, 'post.html', {
+        'categories': categories
+    })
 
 
 

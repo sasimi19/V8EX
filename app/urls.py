@@ -7,5 +7,7 @@ urlpatterns = [
     url(r'^reg/$', 'app.views.reg'),
     url(r'^login/$', 'app.views.login'),
     url(r'logout/$', 'app.views.logout'),
-    url(r'reply/(\d+)$', 'app.views.reply')
+    url(r'reply/(\d+)$', 'app.views.reply'),
+    url(r'user/$', 'app.views.user'),
+    url(r'post/$', 'app.views.post')
 ]
