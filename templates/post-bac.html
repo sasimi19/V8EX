@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://fairybbs.com/topic/2/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
+
+
+        <title>
+            开发状态。-
+
+            V8EX演示网站
+        </title>
+
+        <!-- Bootstrap -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/static/css/base.css" rel="stylesheet">
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">V8EX</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="http://fairybbs.com/recent/">最近主题</a></li>
+                     <li class=""><a href="http://fairybbs.com/node/">所有节点</a></li>
+
+                </ul>
+                    <div class="navbar-form navbar-right" role="search">
+                        <div class="form-group">
+                            <input onkeydown="if(event.keyCode==13){search();}" type="text" id="search" class="form-control" name="search" placeholder="输入关键词">
+                        </div>
+                        <a class="btn btn-default" id="search-btn">
+                            搜索
+                        </a>
+                    </div>
+                </div>
+            </div><!--end nav container-->
+        </nav><!--end nav-->
+
+        <div id="wrap">
+            <div class="container" id="main">
+                <div class="row">
+
+<div class="col-md-8" id="left">
+
+
+<div class="panel panel-default">
+    <div class="panel-heading title-breadcrumb">
+        <a href="/">主页</a>
+        <span><a href="/node/1/">FairyBBS</a></span>
+        <span>新话题</span>
+    </div>
+    <div class="panel-body">
+
+
+        <form class="form" action="/post/" method="post">
+            <select class="form-control" name="category">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+
+
+            </select>
+            <br>
+            <div class="form-group ">
+                <label class="sr-only" for="title">标题</label>
+                <input placeholder="标题" type="text" class="form-control" id="title" name="title" />
+            </div>
+            <div class="form-group ">
+                <label class="sr-only" for="content">内容</label>
+                <textarea placeholder="内容"  class="form-control" id="content" name="content"></textarea>
+            </div>
+            <div class="form-submit text-right">
+                <a class="btn btn-default" id="pre-btn">
+                    预览
+                </a>
+                <button class="btn btn-info" type="submit" id="submit">
+                    提交(Ctrl+Enter)
+                </button>
+            </div>
+        </form>
+        <div class="previewer">
+
+        </div>
+
+    </div>
+</div><!--end reply panel-->
+
+
+
+</div><!--end left-->
+<div class="col-md-4" id="right">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            V8EX
+        </h3>
+    </div>
+    <div class="panel-body">
+        V8EX的演示节点
+    </div>
+    <!--div class="panel-footer"></div-->
+</div>
+
+
+{% if user %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+        {{ user }}
+         </h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="row">
+            <a class="col-xs-2"><img title="jolson" class="avatar-middle" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
+            <div class="padtop">
+                <div class="col-xs-3">
+                    <a href="/user/146/info/" class="btn btn-block"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人信息 </a>
+                </div>
+                <div class="col-xs-3">
+                    <a href="/logout/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;退出登录 </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+{% else %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+        什么是V8EX
+         </h3>
+    </div>
+    <div class="panel-body">
+
+        <p class="text-center">
+            V8EX是使用Django框架建立的小型论坛系统
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/login/" class="btn btn-block btn-info">登陆</a>
+            </div>
+            <div class="col-md-6">
+                <a href="/reg/" class="btn btn-block btn-default">注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                节点
+        </h3>
+    </div>
+    <div class="panel-body">
+
+        <span class="label label-default list-meta-node"><a href="http://fairybbs.com/node/1/">FairyBBS</a></span>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+                友情链接
+        </h3>
+    </div>
+    <ul class="list-group">
+
+        <li class="list-group-item">
+{#            <span class="glyphicon glyphicon-education"></span>#}
+            <span class="label label-default list-meta-node"><a href="http://stackoverflow.com/">stackoverflow</a></span>
+            <span class="label label-default list-meta-node"><a href="http://www.v2ex.com/">V2EX</a></span>
+
+        </li>
+        <li class="list-group-item">
+        <a href="https://www.digitalocean.com/?refcode=f6bd9f21722d"><img src="http://7xkus6.com1.z0.glb.clouddn.com/DO.png" style="max-width:100%; display:block;"></a>
+        </li>
+    </ul>
+</div>
+
+
+</div><!--end right-->
+
+                </div><!--end outter row-->
+            </div><!--end main-->
+        </div><!--end wrap-->
+
+        <footer id="footer">
+            <div class="container clearfix">
+                <div class="text-muted pull-left">
+                   <p>
+					A <a target="_blank" href="http://djangoproject.com/">Django</a> project</p>
+                </div>
+                <p class="muted credit pull-right">
+                    ©
+                    <time>
+                        2014
+                    </time>
+                    Powered by <a href="http://fairybbs.com/">FairyBBS</a> 0.0.4.
+                </p>
+            </div>
+        </footer>
+
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/search.js"></script>
+
+<script src="/static/js/previewer.js"></script>
+<script src="/static/js/mention.js"></script>
+
+	<!--zh-cn-->
+
+
+</body></html>

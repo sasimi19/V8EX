@@ -72,10 +72,10 @@ def detail(request, bbs_id):
     view_count = BBS.objects.get(id=bbs_id).view_count
     view_count += 1
     BBS.objects.filter(id=bbs_id).update(view_count=view_count)
-    now = timezone.now()
-    post_time = BBS.objects.get(id=bbs_id).created_date
-    time = (now - post_time).seconds
-    print(time)
+    # now = timezone.now()
+    # post_time = BBS.objects.get(id=bbs_id).created_date
+    # time = (now - post_time).seconds
+    categories = Category.objects.all()
     # user = BBS_user.objects.all().filter(username=cookie)
 
     # comment_user = Comment.objects.get()
@@ -84,7 +84,8 @@ def detail(request, bbs_id):
         'comments': comments,
         'user': user,
         'view_count': view_count,
-        'time': time
+        # 'time': time,
+        'categories': categories
     })
 
 
@@ -225,15 +226,21 @@ def reply(request, bbs_id):
     print('hello')
     Comment.objects.create(content=content, date=datetime.datetime.now(), user_id_id=user.id, article_id_id=bbs_id)
     return HttpResponseRedirect('/detail/' + bbs_id)
-    # return render(request, 'detail.html')
+    # return render(request, 'detail-bac.html')
 
 def user(request):
     user = BBS_user.objects.get(username=request.COOKIES['username'])
     articles = BBS.objects.filter(author_id=user.id)
+    categories = Category.objects.all()
     # print(articles)
-    return render(request, 'userInfo.html', {'user': user, 'articles': articles})
+    return render(request, 'userInfo.html', {
+        'user': user,
+        'articles': articles,
+        'categories': categories
+    })
 
 def post(request):
+    user = request.COOKIES.get('username')
     categories = Category.objects.all()
     author = BBS_user.objects.get(username=request.COOKIES['username'])
     new_bbs_id = BBS.objects.count() + 1
@@ -261,18 +268,22 @@ def post(request):
         if new_bbs:
             return HttpResponseRedirect('/detail/' + str(new_bbs_id))
     return render(request, 'post.html', {
-        'categories': categories
+        'categories': categories,
+        'user': user
     })
 
 def category(request):
     categories = Category.objects.all()
+    user = request.COOKIES.get('username')
     return render(request, 'category.html', {
-        'categories': categories
+        'categories': categories,
+        'user': user
     })
 
 def node(request, category_id):
     articles = BBS.objects.filter(category_id=category_id)
-    return render(request, 'node.html', {'articles': articles})
+    categories = Category.objects.all()
+    return render(request, 'node.html', {'articles': articles, 'categories': categories})
 
 
 
