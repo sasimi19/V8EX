@@ -1,22 +1,17 @@
 <!DOCTYPE html>
-<!-- saved from url=(0028)http://fairybbs.com/topic/2/ -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=360, initial-scale=0.75 user-scalable=no">
 
 
-        <title>
-            开发状态。-
+    <title>V8EX</title>
 
-            V8EX演示网站
-        </title>
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/base.css" rel="stylesheet">
 
-        <!-- Bootstrap -->
-        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/static/css/base.css" rel="stylesheet">
-
-    </head>
+</head>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
@@ -61,13 +56,13 @@
 			<a href="http://fairybbs.com/user/1/info/" class="col-md-1 pull-right"><img title="eric" class="avatar-middle pull-right" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
 			<div class="col-md-10">
 				<p class="topic-breadcrumb">
-                        <a href="http://fairybbs.com/">V8EX</a>  ›   <a href="http://fairybbs.com/node/1/">V8EX</a>
+                        <a href="http://fairybbs.com/">V8EX</a>  ›   <a href="http://fairybbs.com/node/1/">{{ article.category_id }}</a>
                 </p>
 				<h3 class="list-post-title-in-topic">{{ article.title }}</h3>
 				<p class="list-meta">
 					<span class="label label-default list-meta-node"><a href="#">V8EX</a></span>
-					<span class="list-count">978</span>
-					<span class="list-time">1&nbsp;年，5&nbsp;月 之前</span>AA
+					<span class="list-count">{{ view_count }}</span>
+					<span class="list-time">{{ article.created_date }}</span>
 					<span class="list-username"><a href="http://fairybbs.com/user/1/info/">eric</a></span>
 
 
@@ -81,6 +76,23 @@
 
 </div><!--end content panel-->
 
+
+{% if comments.count == 0 %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<p class="panel-title">
+			评论
+		</p>
+	</div>
+
+	<div class="panel-body">
+		<div class="alert alert-info">
+			暂无回复
+		</div>
+	</div>
+
+</div><!--end reply panel-->
+{% else %}
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<p class="panel-title">
@@ -125,6 +137,11 @@
 
 	</div>
 </div><!--end reply panel-->
+
+{% endif %}
+
+
+
 
 {% if user %}
 <div class="panel panel-default" id="create_reply">
@@ -208,7 +225,7 @@
             <a class="col-xs-2"><img title="jolson" class="avatar-middle" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
             <div class="padtop">
                 <div class="col-xs-3">
-                    <a href="/user/146/info/" class="btn btn-block"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人信息 </a>
+                    <a href="/user/" class="btn btn-block"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人信息 </a>
                 </div>
                 <div class="col-xs-3">
                     <a href="/logout/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;退出登录 </a>

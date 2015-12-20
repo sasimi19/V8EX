@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- saved from url=(0020)http://fairybbs.com/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,9 +38,11 @@
                 </div>
                 <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class=""><a href="http://fairybbs.com/recent/">最近主题</a></li>
-                     <li class=""><a href="http://fairybbs.com/node/">所有节点</a></li>
+                    <li class=""><a href="#">最近主题</a></li>
+                    <li class=""><a href="/category/">所有节点</a></li>
 
+{#                    <li class=""><a href="#">发布新帖</a></li>#}
+{#                    <li class=""><a href="#">管理站点</a></li>#}
                 </ul>
                     <div class="navbar-form navbar-right" role="search">
                         <div class="form-group">
@@ -59,40 +62,28 @@
 
 <div class="col-md-8" id="left">
 
-<div class="panel panel-default">
-    <div class="panel-body row">
-        <div class="col-xs-2">
-            <img class="avatar-large" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg" title="jolson"/>
-        </div>
-        <div class="col-xs-10">
-            <p class="list-post-title"><strong>{{ user }}</strong></p>
-            <p class="list-meta">#{{ user.id }} @ 1 周，1 日 之前</p>
 
-        </div>
-    </div>
-</div>
 
-{% if articles %}
+
 <div class="panel panel-default">
 	<div class="panel-heading title-breadcrumb">
-			{{ user.username }}的话题
+        <a href="/">主页</a> <span>FairyBBS</span>
 	</div>
 
 	<ul class="list-group">
-
-        {% for article in articles %}
-        <div class="list-group-item list-topic-item" id="topic-44">
+        {% for article in articles reversed %}
+        <div class="list-group-item list-topic-item" id="{{ article.id }}">
 			<div class="row ">
-				<a href="/user/146/info/" class="col-md-1 col-xs-2 col-sm-2"><img title="{{ user.username }}" class="avatar-middle" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
+				<a href="http://fairybbs.com/user/147/info/" class="col-md-1 col-xs-2 col-sm-2"><img title="mayer1" class="avatar-middle" src="/media/upload_imgs/{{ article.author.photo }}"></a>
 				<div class="col-xs-9 col-md-10 col-sm-9">
-					<h3 class="list-post-title"><a href="/detail/{{ article.id }}">{{ article.title }}</a></h3>
+					<h3 class="list-post-title" style="margin-bottom: 5px"><a href="/detail/{{ article.id }}">{{ article.title }}</a></h3>
 					<p class="list-meta">
-						<span class="label label-default list-meta-node"><a href="/node/1/">{{ article.category_id }}</a></span>
+						<span class="label label-default list-meta-node"><a href="http://fairybbs.com/node/1/">{{ article.category_id }}</a></span>
 
-						<span class="list-count">{{ article.view_count }}</span>
+						<span class="list-count">{{ article.view_count }}次点击</span>
 
 						<span class="list-time">{{ article.created_date }}</span>
-						<span class="list-username"><a href="/user/146/info/">{{ article.author }}</a></span>
+						<span class="list-username"><a href="http://fairybbs.com/user/147/info/">{{ article.author }}</a></span>
 						<span class="list-reply-count-xs visible-xs"></span>
 					</p>
 				</div>
@@ -103,24 +94,8 @@
 		</div>
         {% endfor %}
 
-	</ul>
-	<div class="panel-footer">
 
-	</div>
-</div>
-{% else %}
-<div class="panel panel-default">
-	<div class="panel-heading title-breadcrumb">
-			jolson的话题
-	</div>
 
-	<div class="panel-body">
-		<div class="alert alert-info">
-			抱歉，没有找到你想要的内容
-		</div>
-	</div>
-
-	<ul class="list-group">
 
 
 	</ul>
@@ -128,17 +103,10 @@
 
 	</div>
 </div>
-
-{% endif %}
-
-
 
 
 
 </div><!--end left-->
-
-
-
 <div class="col-md-4" id="right">
 
 {% if user %}
@@ -154,22 +122,22 @@
         <div class="row">
             <a class="col-xs-2"><img title="jolson" class="avatar-middle" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
             <div class="padtop">
-{#                <div class="col-xs-3">#}
-{#                    <a href="/post/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>新主题 </a>#}
-{#                </div>#}
                 <div class="col-xs-3">
-                    <a href="/user/{{ user_id }}" class="btn btn-block"> <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;个人信息 </a>
+                    <a href="/post/" class="btn btn-block"> <span class="glyphicon glyphicon-plus"></span> 新主题 </a>
                 </div>
                 <div class="col-xs-3">
-                    <a href="/logout/" class="btn btn-block"> <span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;退出登录 </a>
+                    <a href="/user/" class="btn btn-block"><span class="glyphicon glyphicon-user"></span> 个人信息 </a>
+                </div>
+                <div class="col-xs-3">
+                    <a href="/logout/" class="btn btn-block"><span class="glyphicon glyphicon-log-out"></span> 退出登录 </a>
                 </div>
             </div>
 
         </div>
 
     </div>
-
 </div>
+
 {% else %}
 <div class="panel panel-default">
     <div class="panel-heading">

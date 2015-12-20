@@ -10,6 +10,7 @@ from app.models import BBS_user
 from django.template.context_processors import csrf
 # from django.contrib.auth import login, authenticate, logout
 from django.contrib import auth
+from django.utils import timezone
 import datetime
 from django import forms
 
@@ -24,6 +25,11 @@ class RegForm(forms.Form):
     password = forms.CharField(label='password')
     password2 = forms.CharField(label='password2')
     email = forms.CharField(label='email')
+
+class PostForm(forms.Form):
+    # category = forms.ChoiceField(label='category')
+    title = forms.CharField(label='title')
+    content = forms.CharField(label='content')
 
 
 
@@ -54,22 +60,31 @@ def index(request):
         'comment_count': comment_count,
         # 'cookie': cookie,
         'user': user,
-        'new_bbs_id': new_bbs_id
+        'new_bbs_id': new_bbs_id,
     })
 
 def detail(request, bbs_id):
-    print(bbs_id)
+    # print(bbs_id)
 
     article = BBS.objects.get(id=bbs_id)
     comments = Comment.objects.all().filter(article_id=bbs_id)
     user = request.COOKIES.get('username')
+    view_count = BBS.objects.get(id=bbs_id).view_count
+    view_count += 1
+    BBS.objects.filter(id=bbs_id).update(view_count=view_count)
+    now = timezone.now()
+    post_time = BBS.objects.get(id=bbs_id).created_date
+    time = (now - post_time).seconds
+    print(time)
     # user = BBS_user.objects.all().filter(username=cookie)
 
     # comment_user = Comment.objects.get()
     return render(request, 'detail.html', {
         'article': article,
         'comments': comments,
-        'user': user
+        'user': user,
+        'view_count': view_count,
+        'time': time
     })
 
 
@@ -167,7 +182,7 @@ def login(request):
     # user = BBS_user.objects.filter(username__exact = username,password__exact = password)
     # if user:
     #     request.session['login_bool'] = user
-    #     return render(request, 'index.html', {
+    #     return render(request, 'index-bac.html', {
     #         'login_bool': user,
     #         'user': user
     #     })
@@ -219,27 +234,45 @@ def user(request):
     return render(request, 'userInfo.html', {'user': user, 'articles': articles})
 
 def post(request):
-    title = request.POST.get('title')
-    content = request.POST.get('content')
     categories = Category.objects.all()
     author = BBS_user.objects.get(username=request.COOKIES['username'])
     new_bbs_id = BBS.objects.count() + 1
-    new_bbs = BBS.objects.create(
-        title=title,
-        content=content,
-        view_count=1,
-        created_date=datetime.datetime.now(),
-        update_date=datetime.datetime.now(),
-        ranking=0,
-        category_id_id=request.POST.get('category'),
-        author_id = author.id
-        # author = request.COOKIES['username'].id
-    )
-    if new_bbs:
-        return HttpResponseRedirect('/detail/' + str(new_bbs_id))
+
+    form = PostForm(request.POST)
+    # print(form.is_valid())
+    if form.is_valid():
+        title = form.cleaned_data['title']
+        content = form.cleaned_data['content']
+
+    # title = request.POST.get('title')
+    # content = request.POST.get('content')
+
+        new_bbs = BBS.objects.create(
+            title=title,
+            content=content,
+            view_count=1,
+            created_date=datetime.datetime.now(),
+            update_date=datetime.datetime.now(),
+            ranking=0,
+            category_id_id=request.POST.get('category'),
+            author_id = author.id
+            # author = request.COOKIES['username'].id
+        )
+        if new_bbs:
+            return HttpResponseRedirect('/detail/' + str(new_bbs_id))
     return render(request, 'post.html', {
         'categories': categories
     })
+
+def category(request):
+    categories = Category.objects.all()
+    return render(request, 'category.html', {
+        'categories': categories
+    })
+
+def node(request, category_id):
+    articles = BBS.objects.filter(category_id=category_id)
+    return render(request, 'node.html', {'articles': articles})
 
 
 
