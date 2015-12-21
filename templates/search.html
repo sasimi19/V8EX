@@ -1,24 +1,14 @@
-{% extends 'detail.html' %}
+{% extends 'base.html' %}
+
+{% block site %}{% endblock %}
 
 {% block main %}
-<div class="panel panel-default">
-    <div class="panel-body row">
-        <div class="col-xs-2">
-            <img class="avatar-large" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg" title="jolson"/>
-        </div>
-        <div class="col-xs-10">
-            <p class="list-post-title"><strong>{{ user }}</strong></p>
-            <p class="list-meta">#{{ user.id }} @ 1 周之前</p>
-        </div>
-    </div>
-</div>
 
 {% if articles %}
+
 <div class="panel panel-default">
-	<div class="panel-heading title-breadcrumb">
-        {{ user.username }} 的话题
-	</div>
-	<ul class="list-group">
+    <div class="panel-heading title-breadcrumb">搜索 {{ ketword }} 的结果</div>
+        <ul class="list-group">
         {% for article in articles reversed %}
             <div class="list-group-item list-topic-item" id="{{ article.id }}">
                 <div class="row ">
@@ -47,19 +37,17 @@
             </div>
             {% endfor %}
         </ul>
-	<div class="panel-footer">
+    </div>
 
-	</div>
-</div>
-{% else %}
-<div class="panel panel-default">
-	<div class="panel-heading title-breadcrumb">{{ user.username }}的话题</div>
-	<div class="panel-body">
-		<div class="alert alert-info">
-			抱歉，没有找到你想要的内容
-		</div>
-	</div>
-</div>
+    {% else %}
 
-{% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading title-breadcrumb">搜索 {{ ketword }} 的结果</div>
+        <div class="panel-body">
+            <div class="alert alert-danger">抱歉，没有找到你想要的内容</div>
+        </div>
+    </div>
+
+    {% endif %}
+
 {% endblock %}

@@ -1,16 +1,8 @@
 from django.shortcuts import render
 from app.models import BBS, BBS_user, Category, Comment
-from django import forms
-from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
-from django.core.urlresolvers import reverse
-from django.template import RequestContext
 from django.core.validators import RegexValidator
 from app.models import BBS_user
-from django.template.context_processors import csrf
-# from django.contrib.auth import login, authenticate, logout
-from django.contrib import auth
-from django.utils import timezone
 import datetime
 from django import forms
 
@@ -34,11 +26,6 @@ class PostForm(forms.Form):
 
 
 def index(request):
-    # print(request.COOKIES['username'])
-    # print(BBS_user.objects.all().filter(bbs__comment__user_id__username__contains=request.COOKIES['username']))
-    # print(request.COOKIES['username'].id)
-    # print(BBS_user.objects.get(username=request.COOKIES['username']).id)
-
     articles = BBS.objects.all()
     categories = Category.objects.all()
     comments = Comment.objects.all()
@@ -284,6 +271,15 @@ def node(request, category_id):
     articles = BBS.objects.filter(category_id=category_id)
     categories = Category.objects.all()
     return render(request, 'node.html', {'articles': articles, 'categories': categories})
+
+def search(request, keyword):
+    categories = Category.objects.all()
+    articles = BBS.objects.filter(title__contains=keyword)
+    return render(request, 'search.html', {
+        'ketword': keyword,
+        'articles': articles,
+        'categories': categories
+    })
 
 
 
