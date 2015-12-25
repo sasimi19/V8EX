@@ -101,37 +101,6 @@ def reg(request):
 
     return render(request, 'reg.html', {'form': form,})
 
-    # print('post')
-    # username = request.POST.get('username')
-    # password = request.POST.get('password')
-    # password2 = request.POST.get('password2')
-    # email = request.POST.get('email')
-    # try:
-    #     alphanumeric(username)
-    # except:
-    #     messages.add_message(request, messages.WARNING, '用户名只能含有字母、数字或下划线')
-    #     return HttpResponseRedirect(reverse('reg'))
-    #
-    # if BBS_user.objects.filter(username=username).exists():
-    #     messages.add_message(request, messages.WARNING, '用户已存在')
-    #     return HttpResponseRedirect(reverse('reg'))
-    #
-    # if password != password2:
-    #     messages.add_message(request, messages.WARNING, '两次输入的密码不一致，请重新输入')
-    #     return HttpResponseRedirect(reverse('reg'))
-    #
-    # if password == '' or password2 == '':
-    #     messages.add_message(request, messages.WARNING, '密码不能为空')
-    #     return HttpResponseRedirect(reverse('reg'))
-    #
-    # user = BBS_user.objects.create(username=username, email=email, password=password)
-    # # user = authenticate(username=username, password=password)
-    # login(request, user)
-    # p = BBS_user()
-    # p.user = user
-    # p.save()
-    # return render(request, 'reg.html')
-        # return HttpResponseRedirect(reverse('index'))
 
 
 def login(request):
@@ -209,8 +178,6 @@ def reply(request, bbs_id):
     content = request.POST.get('content')
     username = request.COOKIES['username']
     user = BBS_user.objects.get(username=request.COOKIES['username'])
-    # print(user.id)
-    print('hello')
     Comment.objects.create(content=content, date=datetime.datetime.now(), user_id_id=user.id, article_id_id=bbs_id)
     return HttpResponseRedirect('/detail/' + bbs_id)
     # return render(request, 'detail-bac.html')

@@ -121,3 +121,5 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
 MEDIA_URL = '/media/'
 
+# APPEND_SLASH=False
+

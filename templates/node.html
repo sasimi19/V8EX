@@ -2,11 +2,11 @@
 
 {% block main %}
 <div class="panel panel-default">
+    {% for article in articles reversed %}
 	<div class="panel-heading title-breadcrumb">
-        <a href="/">主页</a> <span>FairyBBS</span>
+        <a href="/">主页</a> <span>{{ article.category_id }}</span>
 	</div>
 	<ul class="list-group">
-        {% for article in articles reversed %}
         <div class="list-group-item list-topic-item" id="{{ article.id }}">
 			<div class="row ">
 				<a href="#" class="col-md-1 col-xs-2 col-sm-2"><img title="mayer1" class="avatar-middle" src="http://7xkus6.com1.z0.glb.clouddn.com/index.jpg"></a>
