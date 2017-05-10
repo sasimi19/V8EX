@@ -1,17 +1,116 @@
-#Django-BBS
+# V8EX
 
-***
+This is a imitation V2EX forum using Python, Django, Bootstrap and MySQL.
 
-这是一个前端采用Bootstrap，后端采用Django + MySQL实现的一个简单的BBS，其中包括主页、注册、登录、回复、节点、后台管理等基本功能。
+## Requirements
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-index.png)
+- Python 3.5
+- Django 1.11
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-reg.png)
+## Usage
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-login.png)
+#### Clone
+ ```
+ git clone git@github.com:fsvu/V8EX.git
+ ```
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-reply.png)
+#### Making Model Changes
+ ```
+ Change Models in models.py
+ python manage.py makemigrations
+ python manage.py migrate
+ ```
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-node.png)
+#### Create An Admin User
+ ```
+ python manage.py createsuperuser
+ ```
 
-![](http://7xkus6.com1.z0.glb.clouddn.com/DjangoBBS-admin.png)
+#### Start The Development Server
+ ```
+ python manage.py runserver
+ ```
+
+## Project Structure
+```
+├── BBS
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-34.pyc
+│   │   ├── settings.cpython-34.pyc
+│   │   ├── urls.cpython-34.pyc
+│   │   └── wsgi.cpython-34.pyc
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── README.md
+├── app
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── __init__.cpython-34.pyc
+│   │   ├── admin.cpython-34.pyc
+│   │   ├── models.cpython-34.pyc
+│   │   ├── urls.cpython-34.pyc
+│   │   └── views.cpython-34.pyc
+│   ├── admin.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── media
+│   └── upload_imgs
+│       ├── index.jpg
+│       └── user-0.jpg
+├── static
+│   ├── css
+│   │   ├── base.css
+│   │   ├── bootstrap.min.css
+│   │   └── navbar-fixed-top.css
+│   ├── fonts/
+│   └── js
+│       ├── bootstrap.min.js
+│       ├── jquery.min.js
+│       └── search.js
+└── templates
+    ├── base.html
+    ├── base_center.html
+    ├── category.html
+    ├── detail.html
+    ├── index.html
+    ├── login.html
+    ├── node.html
+    ├── post.html
+    ├── reg.html
+    ├── search.html
+    └── userInfo.html
+```
+
+## LICENSE
+```
+The MIT License (MIT)
+
+Copyright (c) 2016 Jiegao Zhu
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
